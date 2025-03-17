@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Naloga15_RV
+{
+    internal class Naloga15
+    {
+        public static void Main(string[] args)
+        {
+
+            int NajvecjaVsotaPodniza(int[] št) //kadanejev algoritem za iskanje največje vsote podzaporedja
+            {
+                int maxVsota = št[0];
+                int trenutnaVsota = št[0];
+
+                for (int i = 1; i < št.Length; i++)
+                {
+                    trenutnaVsota = Math.Max(št[i], trenutnaVsota + št[i]);
+                    maxVsota = Math.Max(maxVsota, trenutnaVsota);
+                }
+
+                return maxVsota;
+            }
+
+
+            void ObrniDelTabele(int[] št, int začetek, int konec) //zamenjuje elemente na začetku in koncu jih pomika proti sredini
+            {
+                while (začetek < konec)
+                {
+                    int temp = št[začetek];
+                    št[začetek] = št[konec];
+                    št[konec] = temp;
+                    začetek++;
+                    konec--;
+                }
+            }
+
+            void ZavrtiteDesno(int[] št, int k) // rotira tabelo za (v tem primeru) 3 mesta
+            {
+                int n = št.Length;
+                k = k % n;
+
+
+                ObrniDelTabele(št, 0, n - 1);
+
+                ObrniDelTabele(št, 0, k - 1);
+
+                ObrniDelTabele(št, k, n - 1);
+            }
+
+            void Izpis()
+            {
+
+                int[] št1 = { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
+                Console.WriteLine("Največja vsota podniza: " + NajvecjaVsotaPodniza(št1));
+
+
+                int[] št2 = { 1, 2, 3, 4, 5, 6, 7 };
+                int k = 3;
+                ZavrtiteDesno(št2, k);
+                Console.WriteLine("Zavrtena tabela: " + string.Join(", ", št2));
+            }
+
+            Izpis();
+
+        }
+
+    }
+}
